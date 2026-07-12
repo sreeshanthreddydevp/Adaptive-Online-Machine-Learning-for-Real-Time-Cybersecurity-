@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphs 2 - Adaptive Cybersecurity ML</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/adaptive_cybersecurity_ml.css') }}">
+</head>
+<body>
+    
+    <!-- Navbar -->
+     <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/home">
+                <i class="fas fa-shield-alt"></i> CYBER-ML
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/prediction">Prediction</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" id="graphsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Graphs
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="graphsDropdown">
+                            <li><a class="dropdown-item" href="/graphs1">CICIDS2017</a></li>
+                            <li><a class="dropdown-item active" href="/graphs2">UNSW_NB15</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="notebooksDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Notebooks
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="notebooksDropdown">
+                            <li><a class="dropdown-item" href="../static/CICIDS2017.html">CICIDS2017</a></li>
+                            <li><a class="dropdown-item" href="../static/UNSW_NB15.html">UNSW_NB15</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-btn" href="/">Sign Out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb Section -->
+    <div class="breadcrumb-hero breadcrumb-hero-large">
+        <div class="container">
+            <h1 class="breadcrumb-heading">UNSW-NB15 Analytics</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Graphs</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Page Header Section -->
+    <section class="page-header-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">UNSW-NB15 Dataset Analysis</div>
+                <h2 class="section-title">Performance <span>Metrics</span> Visualization</h2>
+                <p class="section-subtitle">Comprehensive analysis of offline and online machine learning models on UNSW-NB15 intrusion detection dataset with detailed performance metrics.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Graphs Section with Tabs -->
+    <section class="graphs-section">
+        <div class="container">
+            
+            <!-- Tab Navigation -->
+            <div class="graph-tabs">
+                <button class="graph-tab-btn active" onclick="switchTab('offline')">
+                    <i class="fas fa-database"></i> Offline Models
+                </button>
+                <button class="graph-tab-btn" onclick="switchTab('online')">
+                    <i class="fas fa-stream"></i> Online River Models
+                </button>
+            </div>
+
+            <!-- Offline Models Tab Content -->
+            <div id="offlineTab" class="graph-tab-content active">
+                <div class="row g-4">
+                    <!-- Class Distribution -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="graph-card" data-index="0">
+                            <div class="graph-image-wrapper">
+                                <img class="graph-card-img"
+                                    src="{{ url_for('static', filename='graphs/UNSW_NB15/download.png') }}"
+                                    alt="Class Distribution">
+                                <div class="graph-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
+                            <div class="graph-card-body">
+                                <h4>Class Distribution</h4>
+                                <p>Visualizes the distribution of normal versus attack traffic in UNSW-NB15 dataset, showing class imbalance with benign traffic dominating the dataset composition.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Correlation Matrix -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="graph-card" data-index="1">
+                            <div class="graph-image-wrapper">
+                                <img class="graph-card-img"
+                                    src="{{ url_for('static', filename='graphs/UNSW_NB15/download (1).png') }}"
+                                    alt="Correlation Matrix">
+                                <div class="graph-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
+                            <div class="graph-card-body">
+                                <h4>Correlation Matrix</h4>
+                                <p>Displays feature correlations revealing relationships between network traffic attributes, helping identify redundant features and multicollinearity for better model optimization.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top 20 Feature Importances -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="graph-card" data-index="2">
+                            <div class="graph-image-wrapper">
+                                <img class="graph-card-img"
+                                    src="{{ url_for('static', filename='graphs/UNSW_NB15/download (2).png') }}"
+                                    alt="Top 20 Feature Importances">
+                                <div class="graph-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
+                            <div class="graph-card-body">
+                                <h4>Top 20 Feature Importances</h4>
+                                <p>Ranks the most influential features for attack detection, identifying critical network traffic characteristics that contribute significantly to classification accuracy and model decisions.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Confusion Matrix & ROC Curve -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="graph-card" data-index="3">
+                            <div class="graph-image-wrapper">
+                                <img class="graph-card-img"
+                                    src="{{ url_for('static', filename='graphs/UNSW_NB15/download (3).png') }}"
+                                    alt="Confusion Matrix & ROC Curve">
+                                <div class="graph-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
+                            <div class="graph-card-body">
+                                <h4>Confusion Matrix & ROC Curve</h4>
+                                <p>Combined visualization showing classification performance with true/false positives/negatives and ROC curve demonstrating model's discrimination capability across different thresholds.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Accuracy -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="graph-card" data-index="4">
+                            <div class="graph-image-wrapper">
+                                <img class="graph-card-img"
+                                    src="{{ url_for('static', filename='graphs/UNSW_NB15/download (4).png') }}"
+                                    alt="Accuracy">
+                                <div class="graph-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
+                            <div class="graph-card-body">
+                                <h4>Accuracy</h4>
+                                <p>Measures overall correctness of model predictions across all classes, showing percentage of correctly classified network traffic instances in UNSW-NB15 dataset evaluation.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Precision -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="graph-card" data-index="5">
+                            <div class="graph-image-wrapper">
+                                <img class="graph-card-img"
+                                    src="{{ url_for('static', filename='graphs/UNSW_NB15/download (5).png') }}"
+                                    alt="Precision">
+                                <div class="graph-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
+                            <div class="graph-card-body">
+                                <h4>Precision</h4>
+                                <p>Evaluates reliability of positive predictions by measuring proportion of true attacks among all predicted attacks, minimizing false alarms in threat detection systems.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recall -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="graph-card" data-index="6">
+                            <div class="graph-image-wrapper">
+                                <img class="graph-card-img"
+                                    src="{{ url_for('static', filename='graphs/UNSW_NB15/download (6).png') }}"
+                                    alt="Recall">
+                                <div class="graph-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
+                            <div class="graph-card-body">
+                                <h4>Recall</h4>
+                                <p>Measures model's ability to identify actual attacks by calculating proportion of true attacks correctly detected, ensuring comprehensive threat coverage and security.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- F1-Score -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="graph-card" data-index="7">
+                            <div class="graph-image-wrapper">
+                                <img class="graph-card-img"
+                                    src="{{ url_for('static', filename='graphs/UNSW_NB15/download (7).png') }}"
+                                    alt="F1-Score">
+                                <div class="graph-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
+                            <div class="graph-card-body">
+                                <h4>F1-Score</h4>
+                                <p>Harmonic mean balancing precision and recall, providing single metric for overall model performance evaluation, especially valuable for imbalanced cybersecurity datasets.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ROC-AUC -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="graph-card" data-index="8">
+                            <div class="graph-image-wrapper">
+                                <img class="graph-card-img"
+                                    src="{{ url_for('static', filename='graphs/UNSW_NB15/download (8).png') }}"
+                                    alt="ROC-AUC">
+                                <div class="graph-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
+                            <div class="graph-card-body">
+                                <h4>ROC-AUC</h4>
+                                <p>Area under ROC curve measuring model's discrimination capability across all classification thresholds, with higher values indicating superior attack detection performance.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- XAI SHAP -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="graph-card" data-index="9">
+                            <div class="graph-image-wrapper">
+                                <img class="graph-card-img"
+                                    src="{{ url_for('static', filename='graphs/UNSW_NB15/download (9).png') }}"
+                                    alt="XAI SHAP">
+                                <div class="graph-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
+                            <div class="graph-card-body">
+                                <h4>XAI SHAP</h4>
+                                <p>Explainable AI using SHAP values to interpret model predictions, showing feature contributions and impact on classification decisions for transparent threat detection.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Online River Models Tab Content -->
+            <div id="onlineTab" class="graph-tab-content">
+                <div class="row g-4">
+                    <!-- Confusion Matrix -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="graph-card" data-index="10">
+                            <div class="graph-image-wrapper">
+                                <img class="graph-card-img"
+                                    src="{{ url_for('static', filename='graphs/UNSW_NB15/download (10).png') }}"
+                                    alt="Confusion Matrix - Online">
+                                <div class="graph-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
+                            <div class="graph-card-body">
+                                <h4>Confusion Matrix</h4>
+                                <p>Real-time confusion matrix for online River models showing adaptive classification performance with continuous learning from streaming network traffic data.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Accuracy -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="graph-card" data-index="11">
+                            <div class="graph-image-wrapper">
+                                <img class="graph-card-img"
+                                    src="{{ url_for('static', filename='graphs/UNSW_NB15/download (11).png') }}"
+                                    alt="Accuracy - Online">
+                                <div class="graph-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
+                            <div class="graph-card-body">
+                                <h4>Accuracy</h4>
+                                <p>Online learning accuracy demonstrating adaptive model's ability to maintain high correctness through continuous updates from streaming data in real-time detection scenarios.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Precision -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="graph-card" data-index="12">
+                            <div class="graph-image-wrapper">
+                                <img class="graph-card-img"
+                                    src="{{ url_for('static', filename='graphs/UNSW_NB15/download (12).png') }}"
+                                    alt="Precision - Online">
+                                <div class="graph-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
+                            <div class="graph-card-body">
+                                <h4>Precision</h4>
+                                <p>Adaptive precision metric showing online model's reliability in attack predictions, continuously refined through incremental learning to minimize false positive rates effectively.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recall -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="graph-card" data-index="13">
+                            <div class="graph-image-wrapper">
+                                <img class="graph-card-img"
+                                    src="{{ url_for('static', filename='graphs/UNSW_NB15/download (13).png') }}"
+                                    alt="Recall - Online">
+                                <div class="graph-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
+                            <div class="graph-card-body">
+                                <h4>Recall</h4>
+                                <p>Online recall performance measuring adaptive model's capability to detect actual threats in streaming data, ensuring comprehensive attack identification through continuous learning.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- F1-Score -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="graph-card" data-index="14">
+                            <div class="graph-image-wrapper">
+                                <img class="graph-card-img"
+                                    src="{{ url_for('static', filename='graphs/UNSW_NB15/download (14).png') }}"
+                                    alt="F1-Score - Online">
+                                <div class="graph-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
+                            <div class="graph-card-body">
+                                <h4>F1-Score</h4>
+                                <p>Balanced F1-score for online models harmonizing precision-recall trade-off, demonstrating adaptive learning's effectiveness in maintaining optimal performance through incremental updates.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ROC-AUC -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="graph-card" data-index="15">
+                            <div class="graph-image-wrapper">
+                                <img class="graph-card-img"
+                                    src="{{ url_for('static', filename='graphs/UNSW_NB15/download (15).png') }}"
+                                    alt="ROC-AUC - Online">
+                                <div class="graph-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
+                            <div class="graph-card-body">
+                                <h4>ROC-AUC</h4>
+                                <p>Area under curve for online River models showing discrimination capability maintained through adaptive learning, with continuous threshold optimization for real-time detection.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- XAI SHAP -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="graph-card" data-index="16">
+                            <div class="graph-image-wrapper">
+                                <img class="graph-card-img"
+                                    src="{{ url_for('static', filename='graphs/UNSW_NB15/download (16).png') }}"
+                                    alt="XAI SHAP - Online">
+                                <div class="graph-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
+                            <div class="graph-card-body">
+                                <h4>XAI SHAP</h4>
+                                <p>Explainable AI for online River models using SHAP analysis, providing interpretable insights into adaptive feature importance and real-time prediction explanations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="image-modal">
+        <button class="modal-close-btn"><i class="fas fa-times"></i></button>
+        <button class="modal-prev-btn"><i class="fas fa-chevron-left"></i></button>
+        <button class="modal-next-btn"><i class="fas fa-chevron-right"></i></button>
+        <div class="modal-content-wrapper">
+            <img id="modalImage" src="" alt="Graph">
+            <div class="modal-caption" id="modalCaption"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="padding: 0;">
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2026 Adaptive Cybersecurity ML. All rights reserved. Built with precision for enterprise security.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/graphs.js') }}"></script>
+    <script>
+        // Tab switching functionality
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.graph-tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const tabButtons = document.querySelectorAll('.graph-tab-btn');
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab content
+            if (tabName === 'offline') {
+                document.getElementById('offlineTab').classList.add('active');
+                document.querySelectorAll('.graph-tab-btn')[0].classList.add('active');
+            } else {
+                document.getElementById('onlineTab').classList.add('active');
+                document.querySelectorAll('.graph-tab-btn')[1].classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

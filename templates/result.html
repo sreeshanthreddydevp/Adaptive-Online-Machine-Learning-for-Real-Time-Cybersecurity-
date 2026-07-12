@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detection Result - Adaptive Cybersecurity ML</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/adaptive_cybersecurity_ml.css') }}">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/home">
+                <i class="fas fa-shield-alt"></i> CYBER-ML
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/prediction">Prediction</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="graphsDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Graphs
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="graphsDropdown">
+                            <li><a class="dropdown-item" href="/graphs1">CICIDS2017</a></li>
+                            <li><a class="dropdown-item" href="/graphs2">UNSW_NB15</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="notebooksDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Notebooks
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="notebooksDropdown">
+                            <li><a class="dropdown-item" href="../static/CICIDS2017.html">CICIDS2017</a></li>
+                            <li><a class="dropdown-item" href="../static/UNSW_NB15.html">UNSW_NB15</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-btn" href="/">Sign Out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb Section -->
+    <div class="breadcrumb-hero breadcrumb-hero-large">
+        <div class="container">
+            <h1 class="breadcrumb-heading">Detection Result</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/prediction">Prediction</a></li>
+                    <li class="breadcrumb-item active">Result</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Page Header Section -->
+    <section class="page-header-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Analysis Complete</div>
+                <h2 class="section-title">Detection <span>Result</span></h2>
+                <p class="section-subtitle">Comprehensive threat analysis with actionable recommendations and security
+                    measures.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Result Section -->
+    <section class="result-section">
+        <div class="container">
+
+            <!-- Main Result Card -->
+            <div class="result-main-card {% if output == 'BENIGN' %}result-benign{% else %}result-threat{% endif %}">
+                <div class="result-icon-large">
+                    {% if output == 'BENIGN' %}
+                    <i class="fas fa-shield-alt"></i>
+                    {% else %}
+                    <i class="fas fa-shield-virus"></i>
+                    {% endif %}
+                </div>
+                <h2 class="result-title">
+                    {% if output == 'BENIGN' %}
+                    Traffic is BENIGN
+                    {% else %}
+                    Threat Detected: {{ output }}
+                    {% endif %}
+                </h2>
+                <p class="result-description">
+                    {% if output == 'BENIGN' %}
+                    Network traffic pattern appears normal. No malicious activity detected in the analyzed data.
+                    {% elif output == 'Bot' %}
+                    Botnet activity detected. Automated malicious software is attempting to communicate with command and
+                    control servers.
+                    {% elif output == 'BruteForce' %}
+                    Brute force attack detected. Multiple failed authentication attempts indicate credential guessing
+                    attack.
+                    {% elif output == 'DoS' %}
+                    Denial of Service attack detected. System resources are being overwhelmed to disrupt normal
+                    operations.
+                    {% elif output == 'Infiltration' %}
+                    Infiltration attempt detected. Unauthorized access attempt to penetrate network defenses and gain
+                    system access.
+                    {% elif output == 'PortScan' %}
+                    Port scanning activity detected. Attacker is probing network to identify open ports and vulnerable
+                    services.
+                    {% elif output == 'WebAttack' %}
+                    Web application attack detected. Malicious requests targeting web server vulnerabilities or
+                    application flaws.
+                    {% endif %}
+                </p>
+
+                {% if confidence %}
+                <div class="confidence-badge">
+                    <i class="fas fa-chart-line"></i> Confidence: {{ confidence }}%
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Threat Level Indicator -->
+            <div class="threat-level-card">
+                <h3><i class="fas fa-exclamation-triangle"></i> Threat Level</h3>
+                <div class="threat-level-bar">
+                    {% if output == 'BENIGN' %}
+                    <div class="threat-level-indicator" style="width: 10%; background: #059669;">
+                        <span>LOW</span>
+                    </div>
+                    {% elif output == 'PortScan' %}
+                    <div class="threat-level-indicator" style="width: 40%; background: #d97706;">
+                        <span>MEDIUM</span>
+                    </div>
+                    {% elif output == 'Bot' or output == 'BruteForce' %}
+                    <div class="threat-level-indicator" style="width: 70%; background: #dc2626;">
+                        <span>HIGH</span>
+                    </div>
+                    {% else %}
+                    <div class="threat-level-indicator" style="width: 95%; background: #991b1b;">
+                        <span>CRITICAL</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Recommendations Section -->
+            <div class="recommendations-section">
+                <h3><i class="fas fa-lightbulb"></i> Recommended Actions</h3>
+                <div class="row g-4">
+                    {% if output == 'BENIGN' %}
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #d1fae5; color: #059669;">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h4>Continue Monitoring</h4>
+                            <p>Maintain regular security monitoring and logging to detect any future anomalies or
+                                suspicious patterns.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #dbeafe; color: #0284c7;">
+                                <i class="fas fa-sync-alt"></i>
+                            </div>
+                            <h4>Update Security Policies</h4>
+                            <p>Ensure firewall rules and security policies are up-to-date to maintain protection against
+                                emerging threats.</p>
+                        </div>
+                    </div>
+
+                    {% elif output == 'Bot' %}
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #fee2e2; color: #dc2626;">
+                                <i class="fas fa-ban"></i>
+                            </div>
+                            <h4>Isolate Infected Systems</h4>
+                            <p>Immediately quarantine affected devices to prevent botnet communication and lateral
+                                movement across the network.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #fef3c7; color: #d97706;">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h4>Block C&C Servers</h4>
+                            <p>Identify and block command and control server IP addresses at firewall level to disrupt
+                                botnet operations.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #e0e7ff; color: #4f46e5;">
+                                <i class="fas fa-virus-slash"></i>
+                            </div>
+                            <h4>Run Malware Scan</h4>
+                            <p>Perform comprehensive antivirus and anti-malware scans on all potentially compromised
+                                systems.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #fce7f3; color: #be185d;">
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                            <h4>Monitor Network Traffic</h4>
+                            <p>Implement deep packet inspection to detect and block suspicious outbound connections to
+                                known malicious IPs.</p>
+                        </div>
+                    </div>
+
+                    {% elif output == 'BruteForce' %}
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #fee2e2; color: #dc2626;">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <h4>Lock Targeted Accounts</h4>
+                            <p>Temporarily disable accounts under attack and require password reset with multi-factor
+                                authentication.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #fef3c7; color: #d97706;">
+                                <i class="fas fa-ban"></i>
+                            </div>
+                            <h4>Block Attacker IPs</h4>
+                            <p>Implement IP-based blocking for source addresses showing repeated failed authentication
+                                attempts.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #e0e7ff; color: #4f46e5;">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <h4>Enable Rate Limiting</h4>
+                            <p>Configure authentication rate limiting to restrict login attempts per IP address or user
+                                account.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #dbeafe; color: #0284c7;">
+                                <i class="fas fa-key"></i>
+                            </div>
+                            <h4>Enforce Strong Passwords</h4>
+                            <p>Implement strict password policies requiring complex passwords and regular password
+                                rotation.</p>
+                        </div>
+                    </div>
+
+                    {% elif output == 'DoS' %}
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #fee2e2; color: #dc2626;">
+                                <i class="fas fa-traffic-light"></i>
+                            </div>
+                            <h4>Enable Traffic Filtering</h4>
+                            <p>Activate DDoS mitigation services and implement traffic filtering to block malicious
+                                requests.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #fef3c7; color: #d97706;">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <h4>Scale Resources</h4>
+                            <p>Increase server capacity and bandwidth to absorb attack traffic while maintaining service
+                                availability.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #e0e7ff; color: #4f46e5;">
+                                <i class="fas fa-cloud"></i>
+                            </div>
+                            <h4>Use CDN Protection</h4>
+                            <p>Route traffic through Content Delivery Network with built-in DDoS protection
+                                capabilities.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #dbeafe; color: #0284c7;">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h4>Monitor Resource Usage</h4>
+                            <p>Track CPU, memory, and bandwidth utilization to identify attack patterns and adjust
+                                defenses.</p>
+                        </div>
+                    </div>
+
+                    {% elif output == 'Infiltration' %}
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #fee2e2; color: #dc2626;">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <h4>Initiate Incident Response</h4>
+                            <p>Activate incident response team immediately to contain breach and prevent further
+                                unauthorized access.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #fef3c7; color: #d97706;">
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                            <h4>Segment Network</h4>
+                            <p>Implement network segmentation to limit attacker's lateral movement and access to
+                                critical systems.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #e0e7ff; color: #4f46e5;">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <h4>Forensic Analysis</h4>
+                            <p>Conduct thorough forensic investigation to identify entry point, compromised systems, and
+                                data exfiltration.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #fce7f3; color: #be185d;">
+                                <i class="fas fa-user-lock"></i>
+                            </div>
+                            <h4>Reset Credentials</h4>
+                            <p>Force password reset for all user accounts and revoke active sessions to prevent
+                                continued access.</p>
+                        </div>
+                    </div>
+
+                    {% elif output == 'PortScan' %}
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #fef3c7; color: #d97706;">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <h4>Monitor Scanning Activity</h4>
+                            <p>Track port scanning patterns to identify reconnaissance attempts and potential attack
+                                preparation.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #e0e7ff; color: #4f46e5;">
+                                <i class="fas fa-door-closed"></i>
+                            </div>
+                            <h4>Close Unnecessary Ports</h4>
+                            <p>Disable unused services and close unnecessary ports to reduce attack surface and
+                                exposure.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #dbeafe; color: #0284c7;">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <h4>Update Firewall Rules</h4>
+                            <p>Configure firewall to block or rate-limit connections from scanning IP addresses.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #d1fae5; color: #059669;">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h4>Deploy IDS/IPS</h4>
+                            <p>Implement intrusion detection and prevention systems to automatically block scanning
+                                attempts.</p>
+                        </div>
+                    </div>
+
+                    {% elif output == 'WebAttack' %}
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #fee2e2; color: #dc2626;">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <h4>Enable WAF Protection</h4>
+                            <p>Activate Web Application Firewall to filter malicious HTTP/HTTPS requests and block
+                                common attacks.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #fef3c7; color: #d97706;">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h4>Patch Vulnerabilities</h4>
+                            <p>Update web applications and frameworks to latest versions to fix known security
+                                vulnerabilities.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #e0e7ff; color: #4f46e5;">
+                                <i class="fas fa-filter"></i>
+                            </div>
+                            <h4>Input Validation</h4>
+                            <p>Implement strict input validation and sanitization to prevent SQL injection and XSS
+                                attacks.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <div class="recommendation-icon" style="background: #dbeafe; color: #0284c7;">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <h4>Review Access Logs</h4>
+                            <p>Analyze web server logs to identify attack patterns, compromised endpoints, and data
+                                exposure.</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Precautions Section -->
+            <div class="precautions-section">
+                <h3><i class="fas fa-shield-alt"></i> Security Precautions</h3>
+                <div class="precautions-grid">
+                    {% if output == 'BENIGN' %}
+                    <div class="precaution-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Maintain regular security audits and vulnerability assessments</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Keep all systems and software updated with latest security patches</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Implement continuous network monitoring and anomaly detection</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Conduct regular security awareness training for all personnel</span>
+                    </div>
+
+                    {% elif output == 'Bot' %}
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Do not attempt to communicate with infected systems without proper isolation</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Avoid clicking suspicious links or downloading unknown attachments</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Document all botnet indicators for threat intelligence sharing</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Implement endpoint detection and response (EDR) solutions</span>
+                    </div>
+
+                    {% elif output == 'BruteForce' %}
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Never reuse passwords across multiple accounts or systems</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Implement account lockout policies after failed login attempts</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Use CAPTCHA or similar challenges for authentication forms</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Monitor authentication logs for suspicious patterns</span>
+                    </div>
+
+                    {% elif output == 'DoS' %}
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Maintain backup infrastructure for critical services</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Implement connection rate limiting and request throttling</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Configure proper timeout values for network connections</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Establish incident response procedures for service disruptions</span>
+                    </div>
+
+                    {% elif output == 'Infiltration' %}
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Assume breach mentality - verify all system integrity</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Preserve evidence for forensic analysis and legal proceedings</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Notify relevant stakeholders and regulatory authorities if required</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Implement zero-trust architecture for future protection</span>
+                    </div>
+
+                    {% elif output == 'PortScan' %}
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Port scanning often precedes actual attacks - stay vigilant</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Regularly audit open ports and running services</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Use port knocking or VPN for sensitive service access</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Implement network segmentation to limit scan visibility</span>
+                    </div>
+
+                    {% elif output == 'WebAttack' %}
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Never trust user input - validate and sanitize all data</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Use parameterized queries to prevent SQL injection</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Implement Content Security Policy (CSP) headers</span>
+                    </div>
+                    <div class="precaution-item">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Conduct regular penetration testing and security code reviews</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="result-actions">
+                <a href="{{ url_for('prediction') }}" class="btn-primary-cyber">
+                    <i class="fas fa-redo"></i> New Analysis
+                </a>
+                <a href="{{ url_for('graphs1') }}" class="btn-outline-dark">
+                    <i class="fas fa-chart-line"></i> View Analytics
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="padding: 0;">
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2026 Adaptive Cybersecurity ML. All rights reserved. Built with precision for enterprise
+                    security.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

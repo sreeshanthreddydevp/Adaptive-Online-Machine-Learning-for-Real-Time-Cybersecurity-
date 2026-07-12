@@ -1,0 +1,163 @@
+DATASET:
+CICIDS2017 Dataset : https://www.kaggle.com/datasets/userrv12345/cicids2017
+UNSW_NB15 Dataset : https://www.kaggle.com/datasets/manasi197/unsw-nb15-training-set
+
+
+PHASE 1: DATA COLLECTION
+==================================================
+1. Load dataset .
+2. Explore dataset shape, features, and label distribution.
+3. Visualize:
+   - Target class distribution (Bar chart)
+   - Correlation matrix (Heatmap)
+
+
+PHASE 2: DATA PREPROCESSING
+==================================================
+1. Replace infinite values with NaN.
+2. Remove null values.
+3. Remove duplicate records.
+4. Encode categorical columns using LabelEncoder.
+5. Separate:
+      X = Features
+      y = Label
+6. Feature selection:
+      - Train RandomForest
+      - Extract Top 20 important features
+7. Feature scaling:
+      - Apply StandardScaler
+8. Handle class imbalance:
+      - Apply SMOTE oversampling
+9. Split dataset:
+      - Train (70%)
+      - Test (30%)
+
+
+PHASE 3: OFFLINE MODEL TRAINING (Batch Learning)
+==================================================
+Train and evaluate:
+
+1. Gaussian Naive Bayes
+2. Logistic Regression
+3. Decision Tree
+4. Random Forest
+5. XGBoost
+6. Deep Neural Network (DNN)
+7. RNN (LSTM)
+8. CNN 
+
+For each model:
+    - Train model
+    - Predict test data
+    - Calculate: Accuracy, Precision, Recall, F1-Score, ROC-AUC
+    - Plot: Confusion Matrix, Multiclass ROC Curve
+
+Store all results in comparison table.
+
+Best Offline Model:
+    → XGBoost
+
+Save artifacts:
+    - offline_model.sav
+    - offline_scaler.sav
+
+
+PHASE 4: EXPLAINABLE AI (Offline Model)
+==================================================
+1. LIME:
+      - Explain individual predictions.
+2. SHAP:
+      - Generate summary plots per class.
+      - Feature impact visualization.
+
+==================================================
+PHASE 5: ONLINE LEARNING (Stream Processing)
+==================================================
+Framework: River (Online ML Library)
+
+Input:
+    Top 20 features
+
+Online Models Implemented with scaling the data:
+
+1. Online Logistic Regression
+2. Hoeffding Tree
+3. Passive-Aggressive Classifier
+4. ADWIN Bagging
+5. Hybrid Model:
+      - Supervised (Logistic Regression)
+      - + HalfSpaceTrees (Anomaly Detection)
+
+Online Evaluation:
+    - Incremental learning (learn_one)
+    - Accuracy
+    - Macro Precision
+    - Macro Recall
+    - Macro F1
+    - ROC-AUC
+    - Confusion Matrix
+    - Drift Detection:
+          • DDM
+          • EDDM
+
+Best Online Model:
+    → Passive-Aggressive Classifier
+
+
+
+PHASE 6: EXPLAINABLE AI (Online Model)
+==================================================
+1. LIME:
+      - Explain individual predictions.
+2. SHAP:
+      - Generate summary plots per class.
+      - Feature impact visualization.
+
+
+
+PHASE 7: WEB APPLICATION (Flask Deployment)
+==================================================
+Framework: Flask
+
+Modules:
+    - Offline Prediction
+    - CSV Upload Prediction
+    - Online Learning with Drift Detection
+    - User Authentication System
+
+--------------------------------------------
+1. OFFLINE SINGLE PREDICTION
+--------------------------------------------
+    Input:
+        Manual feature values
+    Process:
+        - Scale input
+        - Predict using XGBoost
+    Output:
+        - Attack Type
+        - Confidence Score
+
+--------------------------------------------
+2. CSV BULK PREDICTION
+--------------------------------------------
+    Input:
+        Uploaded CSV file
+    Process:
+        - Scale data
+        - Predict
+        - Append Predicted column
+        - Save output file
+        - Perform online drift detection
+    Output:
+        - Prediction table
+        - Downloadable CSV
+        - Drift statistics (DDM & EDDM)
+
+--------------------------------------------
+3. ONLINE MODEL UPDATE
+    - Uses Passive-Aggressive model
+    - Learns incrementally
+    - Detects concept drift
+
+
+Final output will show the prediction Page

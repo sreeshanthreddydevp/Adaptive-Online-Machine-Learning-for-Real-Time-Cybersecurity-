@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Execution Gateway - Cyber-ML</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/adaptive_cybersecurity_ml.css') }}">
+</head>
+<body>
+
+    <!-- Corporate Functional Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/home"><i class="fas fa-shield-alt"></i> CYBER-ML</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/prediction">Prediction</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/graphs1">CICIDS2017</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/graphs2">UNSW_NB15</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                
+                <!-- System Selection Mechanism Tabs -->
+                <div class="d-flex gap-3 mb-4">
+                    <button class="btn btn-outline-info active flex-grow-1 font-cyber" id="toggle-offline-btn" onclick="showForm('offline')">
+                        <i class="fas fa-microchip"></i> INFERENCE SINGLE LAYER FORM
+                    </button>
+                    <button class="btn btn-outline-info flex-grow-1 font-cyber" id="toggle-online-btn" onclick="showForm('online')">
+                        <i class="fas fa-network-wired"></i> BATCH DATASTREAM INGESTION (CSV)
+                    </button>
+                </div>
+
+                <!-- Single Inference Application Form Panel Object -->
+                <div id="offlineForm" class="cyber-card mb-5">
+                    <form method="POST" action="/predict">
+                        <h3 class="font-cyber text-info mb-4"><i class="fas fa-sliders-h"></i> VECTOR CORRELATION MATRIX ENTRY</h3>
+                        <div class="row">
+                            <!-- Generation Loop mapping f1 to f20 inputs precisely -->
+                            <div class="col-md-4 mb-3">
+                                <label class="text-white-50 small mb-1">Fwd Header Length.1 (f1)</label>
+                                <input type="number" step="any" name="f1" class="floating-input" required value="0">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="text-white-50 small mb-1">Fwd Packet Length Max (f2)</label>
+                                <input type="number" step="any" name="f2" class="floating-input" required value="0">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="text-white-50 small mb-1">Bwd Header Length (f3)</label>
+                                <input type="number" step="any" name="f3" class="floating-input" required value="0">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="text-white-50 small mb-1">Fwd Header Length (f4)</label>
+                                <input type="number" step="any" name="f4" class="floating-input" required value="0">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="text-white-50 small mb-1">Total Fwd Packets (f5)</label>
+                                <input type="number" step="any" name="f5" class="floating-input" required value="0">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="text-white-50 small mb-1">Fwd IAT Max (f6)</label>
+                                <input type="number" step="any" name="f6" class="floating-input" required value="0">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="text-white-50 small mb-1">Bwd Packets/s (f7)</label>
+                                <input type="number" step="any" name="f7" class="floating-input" required value="0">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="text-white-50 small mb-1">Init Win Bytes Backward (f8)</label>
+                                <input type="number" step="any" name="f8" class="floating-input" required value="0">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="text-white-50 small mb-1">Total Length Bwd Packets (f9)</label>
+                                <input type="number" step="any" name="f9" class="floating-input" required value="0">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="text-white-50 small mb-1">Init Win Bytes Forward (f10)</label>
+                                <input type="number" step="any" name="f10" class="floating-input" required value="0">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="text-white-50 small mb-1">Max Packet Length (f11)</label>
+                                <input type="number" step="any" name="f11" class="floating-input" required value="0">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="text-white-50 small mb-1">Bwd Packet Length Max (f12)</label>
+                                <input type="number" step="any" name="f12" class="floating-input" required value="0">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="text-white-50 small mb-1">Packet Length Mean (f13)</label>
+                                <input type="number" step="any" name="f13" class="floating-input" required value="0">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="text-white-50 small mb-1">Average Packet Size (f14)</label>
+                                <input type="number" step="any" name="f14" class="floating-input" required value="0">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="text-white-50 small mb-1">Packet Length Std (f15)</label>
+                                <input type="number" step="any" name="f15" class="floating-input" required value="0">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="text-white-50 small mb-1">Subflow Bwd Bytes (f16)</label>
+                                <input type="number" step="any" name="f16" class="floating-input" required value="0">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="text-white-50 small mb-1">Packet Length Variance (f17)</label>
+                                <input type="number" step="any" name="f17" class="floating-input" required value="0">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="text-white-50 small mb-1">Bwd Packet Length Mean (f18)</label>
+                                <input type="number" step="any" name="f18" class="floating-input" required value="0">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="text-white-50 small mb-1">Avg Bwd Segment Size (f19)</label>
+                                <input type="number" step="any" name="f19" class="floating-input" required value="0">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="text-white-50 small mb-1">Bwd Packet Length Std (f20)</label>
+                                <input type="number" step="any" name="f20" class="floating-input" required value="0">
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="btn-predict w-100"><i class="fas fa-bolt"></i> EXECUTE MATRIX NEURAL INFERENCE</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Bulk Dataset CSV Upload Ingestion Component -->
+                <div id="onlineForm" class="cyber-card d-none mb-5">
+                    <form method="POST" action="/predict_csv" enctype="multipart/form-data">
+                        <h3 class="font-cyber text-purple mb-4"><i class="fas fa-cloud-arrow-up"></i> MASS MATRIX STREAM INGESTION</h3>
+                        <div class="border border-secondary border-dashed p-5 text-center rounded bg-dark-opacity" style="border-style: dashed !important;">
+                            <i class="fas fa-file-csv fa-4x text-info mb-3"></i>
+                            <h5>Drag & Drop Evaluation Stream Matrix</h5>
+                            <p class="text-muted small">Supports standard logs derived from CICIDS2017 or UNSW_NB15 parameters</p>
+                            <input type="file" name="file" id="csvFile" accept=".csv" required class="form-control bg-transparent text-white border-info w-50 mx-auto mt-3">
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="btn-primary-cyber w-100"><i class="fas fa-cogs"></i> RUN ADAPTIVE DRIFT STREAM EVALUATION</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

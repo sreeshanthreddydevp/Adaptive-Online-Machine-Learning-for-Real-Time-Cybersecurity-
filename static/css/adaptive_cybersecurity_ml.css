@@ -1,0 +1,169 @@
+/* ==========================================================================
+   ENTERPRISE CYBERSECURITY DESIGN SYSTEM (CROWDSTRIKE & PALO ALTO INSPIRED)
+   ========================================================================== */
+
+:root {
+    --bg-base: #030712;
+    --bg-surface: rgba(11, 22, 44, 0.65);
+    --bg-surface-elevated: rgba(17, 34, 64, 0.85);
+    --accent-neon-blue: #00f0ff;
+    --accent-cyber-purple: #bd00ff;
+    --accent-cyan: #00ffd1;
+    --accent-matrix-green: #39ff14;
+    --accent-alert-red: #ff0055;
+    
+    --text-primary: #f3f4f6;
+    --text-muted: #9ca3af;
+    --border-glass: rgba(0, 240, 255, 0.15);
+    --border-glow: 0 0 15px rgba(0, 240, 255, 0.25);
+    --font-cyber: 'Orbitron', 'Inter', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(189, 0, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.08) 0%, transparent 45%),
+        linear-gradient(rgba(0, 240, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.02) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+}
+
+/* Glassmorphic Cyber Cards */
+.cyber-card {
+    background: var(--bg-surface);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+    padding: 1.75rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.cyber-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.15), transparent);
+    transition: 0.5s;
+}
+
+.cyber-card:hover::before {
+    left: 100%;
+}
+
+.cyber-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(0, 240, 255, 0.4);
+    box-shadow: var(--border-glow), 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Custom Interactive Inputs */
+.floating-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.floating-input {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: #fff;
+    font-family: var(--font-cyber);
+    transition: 0.3s;
+}
+
+.floating-input:focus {
+    border-color: var(--accent-neon-blue);
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+}
+
+/* Corporate Navbar Customization */
+.navbar {
+    background: rgba(3, 7, 18, 0.85) !important;
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-glass);
+}
+
+.navbar-brand {
+    font-family: var(--font-cyber);
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: var(--accent-neon-blue) !important;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+}
+
+/* Main Dashboard Utility Gauges */
+.gauge-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+}
+
+/* Threat Radar Scanning Effect */
+.radar-box {
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 240, 255, 0.3);
+    position: relative;
+    margin: 0 auto;
+    background: radial-gradient(circle, rgba(0, 240, 255, 0.05) 0%, transparent 80%);
+}
+
+.radar-box::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, rgba(0, 240, 255, 0.4) 0deg, transparent 90deg);
+    animation: radar-sweep 4s linear infinite;
+}
+
+@keyframes radar-sweep {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Beautiful Animated Buttons */
+.btn-predict, .btn-primary-cyber {
+    background: linear-gradient(135deg, var(--accent-neon-blue), var(--accent-cyber-purple));
+    border: none;
+    color: white;
+    font-family: var(--font-cyber);
+    font-weight: 700;
+    padding: 0.85rem 2rem;
+    border-radius: 6px;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(189, 0, 255, 0.3);
+    transition: 0.3s;
+}
+
+.btn-predict:hover, .btn-primary-cyber:hover {
+    filter: brightness(1.2);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+    transform: scale(1.02);
+}
